@@ -1,0 +1,19 @@
+name: "Trying to print IP"
+on:
+  push:
+jobs:
+  print-ip:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: "Install dig"
+      run: |
+        sudo apt-get install dnsutils
+    - name: "Print IP"
+      run: |
+        set -x
+        az vm list-ip-addresses || true
+        az vm show || true
+        az network public-ip show || true
+        curl http://checkip.amazonaws.com || true
+        dig TXT +short o-o.myaddr.l.google.com @ns1.google.com || true
